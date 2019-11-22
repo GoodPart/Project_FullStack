@@ -36,7 +36,7 @@
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"
-    ],
-    "proxy": "https://europe-west1-socialape-d081e.cloudfunctions.net/api"
-  }
+    ]
+  },
+  "proxy": "https://us-central1-socialape-32b84.cloudfunctions.net/api"
 }
