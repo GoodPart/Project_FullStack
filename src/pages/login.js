@@ -68,7 +68,7 @@ export class login extends Component {
                 <Grid item sm>
                     <img src={AppIcon} alt="default" className={classes.image}/>
                     <Typography variant="h2" className={classes.pageTitle}>
-                        
+                        Login
                     </Typography>
                     <form noValidate onSubmit={this.handleSubmit}>
                  <TextField id="email" name="email" type="email" label="Email" className={classes.textField} helperText={errors.email} error={errors.email ? true : false}
