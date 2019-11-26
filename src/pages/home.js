@@ -10,7 +10,7 @@ export class home extends Component {
     }
     componentDidMount () {
         axios.get('/screams')
-            .then(res => {
+            .then((res) => {
                 console.log(res.data)
                 this.setState({
                     screams : res.data
@@ -18,9 +18,13 @@ export class home extends Component {
             })
             .catch(err => console.log(err))
     }
+    //이거 콘솔에 뜸 뭔지 모르겠음
+    componentWillUnmount () {
+        console.log("will unMount")
+    }
     render() {
         let recentScreamsMarkup = this.state.screams ? (
-            this.state.screams.map(scream=> <Scream scream={scream} />)
+            this.state.screams.map((scream)=> <Scream key={scream.screamId} scream={scream} />)
         ) : <p>Loading...</p>
         return (
             <Grid container spacing={16}>
