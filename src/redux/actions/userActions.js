@@ -1,13 +1,13 @@
-import { SET_USER, SET_ERRORS, CLEAR_ERRORS, LOADING_UI, SET_UNSET_AUTHENTICATED } from '../types'
+import { SET_USER, SET_ERRORS, CLEAR_ERRORS, LOADING_UI, SET_UNSET_AUTHENTICATED, LOADING_USER } from '../types'
 import axios from 'axios'
 
 export const loginUser = (userData, history) =>(dispatch) => {
-    dispatch({ type: LOADING_UI });
+    dispatch({ type: LOADING_UI });//call reduce
     axios.post('/login', userData)
         .then(res => {
           setAuthorizationHeader(res.data.token)
           dispatch(getUserData());
-          dispatch({ type: CLEAR_ERRORS  });
+          dispatch({ type: CLEAR_ERRORS  });//call reduce
           history.push('/');
         })
         .catch(err=>{
@@ -43,8 +43,12 @@ export const logoutUser = () => (dispatch) => {
 
 
 export const getUserData = () => (dispatch) => {
-    axios.get('/user')
+    dispatch({ type: LOADING_USER});
+    axios
+        .get('/user')
         .then(res=> {
+            console.log("DATA",res.data)
+            // dispatch({ payload: res.data})
             dispatch({
                 type: SET_USER,
                 payload: res.data
