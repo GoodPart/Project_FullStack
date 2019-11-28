@@ -17,6 +17,10 @@ background-color: rgb(245,245,245);
   margin: auto;
 }
 
+.nav-container svg {
+  color: #fff;
+}
+
 a {
   text-decoration: none;
 }

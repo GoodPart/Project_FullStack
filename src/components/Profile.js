@@ -3,6 +3,9 @@ import PropTypes from 'prop-types'
 import withStyles from '@material-ui/core/styles/withStyles'
 import { Link } from 'react-router-dom'
 import dayjs from 'dayjs'
+import EditDetails from './EditDetails'
+import MyButton from '../util/MyButton'
+
 
 //MUI stuff
 import Button from '@material-ui/core/Button'
@@ -12,12 +15,15 @@ import Paper  from '@material-ui/core/Paper'
 
 //Redux stuff
 import { connect } from 'react-redux'
+import { logoutUser, uploadImage} from '../redux/actions/userActions';
 
 
 // Icons 
 import LocationOn from '@material-ui/icons/LocationOn'
 import LinkIcon from '@material-ui/icons/Link'
 import CalendarToday from '@material-ui/icons/CalendarToday'
+import EditIcon from '@material-ui/icons/Edit'
+import KeyboardReturn from '@material-ui/icons/KeyboardReturn'
 
 
 const styles = (theme) => ({ 
@@ -69,6 +75,21 @@ const styles = (theme) => ({
 });
 
 class Profile extends Component {
+
+    handleImageChange = (event) => {
+        const image = event.target.files[0];
+        //send to server 
+        const formData = new FormData();
+        formData.append('image', image, image.name);
+        this.props.uploadImage(formData)
+    }
+    handleEitPicture = () => {
+        const fileInput = document.getElementById('imageInput');
+        fileInput.click();
+    }
+    handleLogout = () => {
+        this.props.logoutUser();
+    }
     render() {
         const {
             classes,
@@ -87,6 +108,10 @@ class Profile extends Component {
                 <div className={classes.profile}>
                     <div className="image-wrapper">
                         <img className="profile-image" src={imageUrl} alt="profile" />
+                        <input type="file" id="imageInput" hidden="hidden" onChange={this.handleImageChange} />
+                        <MyButton tip="Edit Profile picture" onClick={this.handleEitPicture} btnClassName="button">
+                            <EditIcon color="primary" />
+                        </MyButton>
                     </div>
                     <hr />
                     <div className="profile-details">
@@ -114,6 +139,11 @@ class Profile extends Component {
                         <CalendarToday color="primary" /> {' '}
                         <span>Joined {dayjs(createdAt).format('MMM YYYY')}</span>
                     </div>
+
+                    <MyButton tip="Logout" onClick={this.handleLogout} >
+                        <KeyboardReturn color="primary" />
+                    </MyButton>
+                    <EditDetails />
                 </div>
             </Paper>
         ):(
@@ -140,9 +170,13 @@ const mapStateToProps = (state) => ({
     user: state.user
 })
 
+const mapActionsToProps = {logoutUser, uploadImage};
+
 Profile.propTypes ={
+    logoutUser: PropTypes.func.isRequired,
+    uploadImage: PropTypes.func.isRequired,
     user: PropTypes.object.isRequired,
     classes: PropTypes.object.isRequired
 }
 
-export default connect(mapStateToProps)(withStyles(styles)(Profile))
+export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(Profile))
