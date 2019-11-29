@@ -8,7 +8,6 @@ import MyButton from '../util/MyButton'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import Button from '@material-ui/core/Button'
-import { Tooltip } from '@material-ui/core';
 
 //Icons
 import AddIcon from '@material-ui/icons/Add'
@@ -21,6 +20,7 @@ export class Navbar extends Component {
         return (
             <AppBar>
                 <Toolbar className="nav-container">
+                    {/* authenticated 가 ture라면(로그인되어 인증이 되었을 경우) 아래 갑싱 리턴된다. */}
                     {authenticated ? (
                         <Fragment>
                             <MyButton tip="Post A Scream!">
@@ -36,6 +36,7 @@ export class Navbar extends Component {
                             </MyButton>
                         </Fragment>
                     ):(
+                        // authenticated 가 false라면(로그인되어 인증이 안되었을 경우) 아래 갑싱 리턴된다.
                         <Fragment>
                             <Button component={Link} to="/login" color="inherit">Login</Button>
                             <Button component={Link} to="/" color="inherit">Home</Button>
