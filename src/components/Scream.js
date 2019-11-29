@@ -85,8 +85,8 @@ export class Scream extends Component {
         return (
             <Card className={classes.card}>
                 <CardMedia
-                image="https://firebasestorage.googleapis.com/v0/b/socialape-32b84.appspot.com/o/no-img.png?alt=media"
-                // image={userImage}
+                // image="https://firebasestorage.googleapis.com/v0/b/socialape-32b84.appspot.com/o/no-img.png?alt=media"
+                image={userImage}
                 title="Profile image"
                 className={classes.image}
                  />
