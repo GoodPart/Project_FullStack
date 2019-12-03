@@ -29,6 +29,10 @@ export default function(state = initialState, action) {
         case UNLIKE_SCREAM:
             let index = state.screams.findIndex((scream) => scream.screamId === action.payload.screamId);
             state.screams[index] = action.payload;
+            // 다른 곳에서도 코멘트 카운트를 업데이트하기위함.
+            if(state.scream.screamId === action.payload.screamId) {
+                state.scream = action.payload
+            }
             return {
                 ...state,
 
