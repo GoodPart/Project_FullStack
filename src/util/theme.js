@@ -1,3 +1,4 @@
+//글로벌 CSS작성
 export default {
     palette : {
       primary: {

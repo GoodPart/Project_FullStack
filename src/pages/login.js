@@ -20,9 +20,6 @@ const styles = (theme) => ({
   ...theme
 })
 
-
-
-
 export class login extends Component {
     constructor() {
         super();
@@ -32,6 +29,7 @@ export class login extends Component {
             errors : {}
         }
     }
+    //새로 받게될 props를 nextProps로 조회가능.
     componentWillReceiveProps(nextProps) {
       if(nextProps.UI.errors) {
         this.setState({ errors: nextProps.UI.errors});
@@ -65,10 +63,30 @@ export class login extends Component {
                         Login
                     </Typography>
                     <form noValidate onSubmit={this.handleSubmit}>
-                 <TextField id="email" name="email" type="email" label="Email" className={classes.textField} helperText={errors.email} error={errors.email ? true : false}
-                  value={this.state.email} onChange={this.handleChange} fullWidth />
-                  <TextField id="password" name="password" type="password" label="password" className={classes.textField} helperText={errors.password} error={errors.password ? true : false}
-                   value={this.state.password} onChange={this.handleChange} fullWidth />
+                 <TextField
+                  id="email"
+                  name="email"
+                  type="email"
+                  label="Email"
+                  className={classes.textField}
+                  helperText={errors.email}
+                  error={errors.email ? true : false}
+                  value={this.state.email}
+                  onChange={this.handleChange}
+                  fullWidth
+                  />
+                  <TextField
+                    id="password"
+                    name="password"
+                    type="password"
+                    label="password"
+                    className={classes.textField}
+                    helperText={errors.password}
+                    error={errors.password ? true : false}
+                    value={this.state.password}
+                    onChange={this.handleChange}
+                    fullWidth
+                  />
                    {errors.general && (
                      <Typography variant="body2" className={classes.customError}>
                        {errors.general}

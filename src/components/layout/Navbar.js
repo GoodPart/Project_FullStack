@@ -20,7 +20,7 @@ export class Navbar extends Component {
         return (
             <AppBar>
                 <Toolbar className="nav-container">
-                    {/* authenticated 가 ture라면(로그인되어 인증이 되었을 경우) 아래 갑싱 리턴된다. */}
+                    {/* authenticated 가 ture라면(로그인되어 인증이 되었을 경우) 아래 값이 리턴된다. */}
                     {authenticated ? (
                         <Fragment>
                             <PostScream />
@@ -34,7 +34,7 @@ export class Navbar extends Component {
                             </MyButton>
                         </Fragment>
                     ):(
-                        // authenticated 가 false라면(로그인되어 인증이 안되었을 경우) 아래 갑싱 리턴된다.
+                        // authenticated 가 false라면(로그인되어 인증이 안되었을 경우) 아래 값이 리턴된다.
                         <Fragment>
                             <Button component={Link} to="/login" color="inherit">Login</Button>
                             <Button component={Link} to="/" color="inherit">Home</Button>

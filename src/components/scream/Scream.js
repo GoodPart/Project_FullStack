@@ -63,6 +63,7 @@ export class Scream extends Component {
                  />
                 
                 <CardContent className={classes.content}>
+                    {/* 유저의 개인 페이지로 갈 수 있도록 함. */}
                     <Typography variant="h5" component={Link} to={`/users/${userHandle}`} color="primary">
                         {userHandle}
                     </Typography>
