@@ -31,5 +31,5 @@
     "not ie <= 11",
     "not op_mini all"
   ],
-  "proxy": "https://europe-west1-socialape-d081e.cloudfunctions.net/api"
+  "proxy": "https://asia-northeast1-socialapp-ee961.cloudfunctions.net/api"
 }
