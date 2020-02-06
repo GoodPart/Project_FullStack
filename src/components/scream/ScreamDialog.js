@@ -51,24 +51,45 @@ const styles = theme => ({
 class ScreamDialog extends Component {
   //해당 컴포넌트의 state값 정의
   state = {
-    open: false
+    open: false,
+    oldPath: '',
+    newPath : ''
   };
   componentDidMount() {
-    // if (this.props.openDialog) {
-    //   console.log("작동하닝??", this.props.openDialog);
-    //   alert("asdasdasd");
-    //   this.handleOpen();
-    // }
-    alert(`힝 : ${this.props.openDialog}`);
+    if (this.props.openDialog) {
+      // console.log("작동하닝??", this.props.openDialog);
+      // alert(`3333333333 : ${this.props.openDialog}`);
+      this.handleOpen();
+    }
+    // alert(`힝 : ${this.props.openDialog}`);
   }
   handleOpen = () => {
+    //현재의 pathUrl을 oldPath에 저장
+    let oldPath = window.location.pathname;
+    
+    //userHandle, screamId를 사용하겠다, 선언
+    const { userHandle, screamId } = this.props;
+    //newPath에 아래와 같이 저장.
+    const newPath = `/users/${userHandle}/scream/${screamId}`;
+
+    if(oldPath === newPath) oldPath = `/users/${userHandle}`;
+
+
+    //현재의 Url을 newPath로 지정
+    window.history.pushState(null, null, newPath);
+
+    //열기 state값 변경
     this.setState({
-      open: true
+      open: true,
+      oldPath,
+      newPath
     });
     //dataActions.js 파일의 getScream에 클릭한 btn에 screamId값을 보내기.
     this.props.getScream(this.props.screamId);
   };
   handleClose = () => {
+    //열린 Dialog를 닫았을 경우, 이전 Url로 변경
+    window.history.pushState(null, null, this.state.oldPath);
     this.setState({
       open: false
     });

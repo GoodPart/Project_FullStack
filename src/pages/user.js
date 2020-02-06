@@ -4,6 +4,8 @@ import axios from "axios";
 import Scream from "../components/scream/Scream";
 import Grid from "@material-ui/core/Grid";
 import StaticProfile from "../components/profile/StaticProfile";
+import ScreamSkeleton from '../util/screamSkeleton'
+import ProfileSkeleton from '../util/ProfileSkeleton'
 
 import { connect } from "react-redux";
 import { getUserData } from "../redux/actions/dataActions";
@@ -11,7 +13,7 @@ import { getUserData } from "../redux/actions/dataActions";
 export class user extends Component {
   state = {
     profile: null,
-    screamIdParam: null
+    screamIdParam: null,
   };
   componentDidMount() {
     //handle은 내가 클릭한 유저의 파라미터 값 즉, URL의 파라미터 값을 가져온다.
@@ -36,10 +38,11 @@ export class user extends Component {
   }
   render() {
     const { screams, loading } = this.props.data;
-    const { screamIdParam } = this.props;
+    // const { screamIdParam } = this.props;
+    const { screamIdParam } = this.state;
 
     const screamsMarkup = loading ? (
-      <p>loading Data...</p>
+      <ScreamSkeleton />
     ) : screams === null ? (
       <p>No scream from this user</p>
     ) : !screamIdParam ? (
@@ -48,7 +51,7 @@ export class user extends Component {
       screams.map(scream => {
         if (scream.screamId !== screamIdParam)
           return <Scream key={scream.screamId} scream={scream} />;
-        else return <Scream key={scream.screamId} scream={scream} openDialog />;
+        else return <Scream key={scream.screamId} scream={scream} openDialog  />;
       })
     );
 
@@ -59,7 +62,7 @@ export class user extends Component {
         </Grid>
         <Grid item sm={4} xs={12}>
           {this.state.profile === null ? (
-            <p>Loading profile...</p>
+            <ProfileSkeleton />
           ) : (
             <StaticProfile profile={this.state.profile} />
           )}

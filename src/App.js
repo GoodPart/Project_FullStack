@@ -24,6 +24,8 @@ import axios from "axios";
 
 const theme = createMuiTheme(themeFile);
 
+axios.defaults.baseURL = 'https://us-central1-socialape-32b84.cloudfunctions.net/api';
+
 const token = localStorage.FBIdToken;
 if (token) {
   const decodeToken = jwtDecode(token);
