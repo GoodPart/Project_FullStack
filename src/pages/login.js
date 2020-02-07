@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import withStyles from '@material-ui/core/styles/withStyles'
 import PropTypes from 'prop-types'
-import AppIcon from '../images/icon.png'
-import axios from 'axios'
+import AppIcon from '../images/icon.png'  
 import {Link} from 'react-router-dom'
 
 // MUI Stuff
@@ -11,12 +10,15 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 import CircularProgress from '@material-ui/core/CircularProgress'
+
+//Redux stuff
+import {connect} from 'react-redux'
+import { loginUser } from '../redux/actions/userActions' ;
+
+
 const styles = (theme) => ({
   ...theme
 })
-
-
-
 
 export class login extends Component {
     constructor() {
@@ -24,9 +26,14 @@ export class login extends Component {
         this.state = {
             email: '',
             password: '',
-            loading: false,
             errors : {}
         }
+    }
+    //새로 받게될 props를 nextProps로 조회가능.
+    componentWillReceiveProps(nextProps) {
+      if(nextProps.UI.errors) {
+        this.setState({ errors: nextProps.UI.errors});
+      }
     }
     handleChange = (event)=> {
         this.setState({
@@ -35,46 +42,51 @@ export class login extends Component {
     }
     handleSubmit = (event) =>{
         event.preventDefault();
-        this.setState({
-          loading: true
-        });
+        
         const userData = {
           email: this.state.email,
           password: this.state.password
-        }
-        axios.post('/login', userData)
-        .then(res => {
-          console.log(res.data);
-          localStorage.setItem('FBIdToken', `Bearer ${res.data.token}`);
-          this.setState({
-            loading: false
-          });
-          this.props.history.push('/');
-        })
-        .catch(err=>{
-          this.setState({
-            errors: err.response.data,
-            loading: false
-          })
-        })
+        };
+        this.props.loginUser(userData, this.props.history);
+        
     }
 
     render() {
-        const { classes } = this.props;
-        const {errors, loading} = this.state;
+        const { classes, UI: {loading} } = this.props;
+        const {errors} = this.state;
         return (
             <Grid container className={classes.form}>
                 <Grid item sm/>
                 <Grid item sm>
                     <img src={AppIcon} alt="default" className={classes.image}/>
                     <Typography variant="h2" className={classes.pageTitle}>
-                        
+                        Login
                     </Typography>
                     <form noValidate onSubmit={this.handleSubmit}>
-                 <TextField id="email" name="email" type="email" label="Email" className={classes.textField} helperText={errors.email} error={errors.email ? true : false}
-                  value={this.state.email} onChange={this.handleChange} fullWidth />
-                  <TextField id="password" name="password" type="password" label="password" className={classes.textField} helperText={errors.password} error={errors.password ? true : false}
-                   value={this.state.password} onChange={this.handleChange} fullWidth />
+                 <TextField
+                  id="email"
+                  name="email"
+                  type="email"
+                  label="Email"
+                  className={classes.textField}
+                  helperText={errors.email}
+                  error={errors.email ? true : false}
+                  value={this.state.email}
+                  onChange={this.handleChange}
+                  fullWidth
+                  />
+                  <TextField
+                    id="password"
+                    name="password"
+                    type="password"
+                    label="password"
+                    className={classes.textField}
+                    helperText={errors.password}
+                    error={errors.password ? true : false}
+                    value={this.state.password}
+                    onChange={this.handleChange}
+                    fullWidth
+                  />
                    {errors.general && (
                      <Typography variant="body2" className={classes.customError}>
                        {errors.general}
@@ -96,8 +108,20 @@ export class login extends Component {
     }
 }
 
-login.propTypes= {
-    classes : PropTypes.object.isRequired
+login.propTypes = {
+    classes : PropTypes.object.isRequired,
+    loginUser: PropTypes.func.isRequired,
+    user: PropTypes.object.isRequired,
+    UI: PropTypes.object.isRequired
 }
 
-export default withStyles(styles)(login)
+const mapStateToProps = (state) => ({
+  user : state.user,
+  UI : state.UI
+});
+
+const mapActionsToProps = {
+  loginUser
+}
+
+export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(login))
